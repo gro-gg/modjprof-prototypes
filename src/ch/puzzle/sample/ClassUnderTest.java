@@ -1,3 +1,4 @@
+package ch.puzzle.sample;
 
 public class ClassUnderTest {
 
