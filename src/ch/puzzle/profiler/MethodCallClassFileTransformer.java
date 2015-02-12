@@ -21,8 +21,8 @@ public class MethodCallClassFileTransformer implements ClassFileTransformer {
 			Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
 			byte[] classfileBuffer) throws IllegalClassFormatException {
 
-		System.out.println(" Loading class: " + className);
 		if (className.startsWith("ch/puzzle/sample/")) {
+			System.out.println(" Loading class: " + className);
 			pool = ClassPool.getDefault();
 			pool.insertClassPath(new ByteArrayClassPath(className, classfileBuffer));
 			try {
