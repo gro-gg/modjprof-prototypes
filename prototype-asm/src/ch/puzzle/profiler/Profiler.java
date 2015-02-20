@@ -1,0 +1,10 @@
+package ch.puzzle.profiler;
+
+import java.lang.instrument.Instrumentation;
+
+public class Profiler {
+	public static void premain(String agentArgs, Instrumentation inst) {
+		System.out.println("Starting the ASM agent... premain()");
+		inst.addTransformer(new ASMClassFileTransformer());
+	}
+}
