@@ -10,9 +10,10 @@ import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import javassist.Modifier;
 import javassist.NotFoundException;
 
-public class MethodCallClassFileTransformer implements ClassFileTransformer {
+public class JavassistClassFileTransformer implements ClassFileTransformer {
 
 	private ClassPool pool;
 
@@ -21,14 +22,22 @@ public class MethodCallClassFileTransformer implements ClassFileTransformer {
 			Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
 			byte[] classfileBuffer) throws IllegalClassFormatException {
 
-		if (className.startsWith("ch/puzzle/sample/")) {
+		if (className.startsWith("ch/puzzle") || className.startsWith("najs")) {
 			System.out.println(" Loading class: " + className);
 			pool = ClassPool.getDefault();
-			pool.insertClassPath(new ByteArrayClassPath(className, classfileBuffer));
+			pool.insertClassPath(new ByteArrayClassPath(className,
+					classfileBuffer));
 			try {
 				CtClass ctClass = pool.get(className.replaceAll("/", "."));
-				return instrumentAllMethods(ctClass).toBytecode();
-			} catch (NotFoundException | CannotCompileException | IOException e) {
+				int modifiers = ctClass.getModifiers();
+				if (!Modifier.isAnnotation(modifiers)
+						&& !Modifier.isEnum(modifiers)
+						&& !Modifier.isInterface(modifiers)) {
+					return instrumentAllMethods(ctClass).toBytecode();
+				}
+			} catch (NotFoundException e) {
+				// do nothing
+			} catch (CannotCompileException | IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -39,10 +48,16 @@ public class MethodCallClassFileTransformer implements ClassFileTransformer {
 			throws CannotCompileException {
 		if (!ctClass.isFrozen()) {
 			for (CtMethod declaredMethod : ctClass.getDeclaredMethods()) {
-				declaredMethod.insertBefore(createEnterInstrumentationString(
-						ctClass.getName(), declaredMethod.getName()));
-				declaredMethod.insertAfter(createExitInstrumentationString(
-						ctClass.getName(), declaredMethod.getName()));
+				System.out.println("   instrumenting method "
+						+ declaredMethod.getName());
+				int modifiers = declaredMethod.getModifiers();
+				if (!Modifier.isAbstract(modifiers)) {
+					declaredMethod
+							.insertBefore(createEnterInstrumentationString(
+									ctClass.getName(), declaredMethod.getName()));
+					declaredMethod.insertAfter(createExitInstrumentationString(
+							ctClass.getName(), declaredMethod.getName()));
+				}
 			}
 		}
 		return ctClass;
