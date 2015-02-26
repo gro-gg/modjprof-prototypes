@@ -17,8 +17,8 @@ public class InstrumentMethodClassVisitor extends ClassVisitor {
 	@Override
 	public MethodVisitor visitMethod(int access, String methodName,
 			String desc, String signature, String[] exceptions) {
-		MethodVisitor parentMethodVisitor = super.visitMethod(access, methodName,
-				desc, signature, exceptions);
+		MethodVisitor parentMethodVisitor = super.visitMethod(access,
+				methodName, desc, signature, exceptions);
 		if (!methodName.equals("<init>")) {
 			System.out.println("   instrumenting method " + methodName);
 			// + " access:" + access + " desc:" + desc + " signature:" +
