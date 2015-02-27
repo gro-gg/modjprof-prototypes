@@ -7,6 +7,7 @@ import java.security.ProtectionDomain;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
 
 public class ASMClassFileTransformer implements ClassFileTransformer {
 
@@ -21,9 +22,10 @@ public class ASMClassFileTransformer implements ClassFileTransformer {
 			ClassReader classReader = new ClassReader(classfileBuffer);
 			ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES);
 			ClassVisitor instrumentMethodClassVisitor = new InstrumentMethodClassVisitor(classWriter, className);
-
-			classReader.accept(instrumentMethodClassVisitor, 0);
-			return classWriter.toByteArray();
+			if ((classReader.getAccess() & (Opcodes.ACC_INTERFACE + Opcodes.ACC_ENUM + Opcodes.ACC_ANNOTATION)) == 0) {
+				classReader.accept(instrumentMethodClassVisitor, 0);
+				return classWriter.toByteArray();
+			}
 		}
 		return classfileBuffer;
 	}

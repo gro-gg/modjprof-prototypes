@@ -21,8 +21,6 @@ public class InstrumentMethodClassVisitor extends ClassVisitor {
 				methodName, desc, signature, exceptions);
 		if (!methodName.equals("<init>")) {
 			System.out.println("   instrumenting method " + methodName);
-			// + " access:" + access + " desc:" + desc + " signature:" +
-			// signature);
 			MethodVisitor instrumentMeasurementPonitsMethodVisitor = new InstrumentMeasurementPonitsMethodVisitor(
 					parentMethodVisitor, methodName, className);
 			return instrumentMeasurementPonitsMethodVisitor;
