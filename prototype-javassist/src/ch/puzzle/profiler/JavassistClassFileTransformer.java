@@ -48,8 +48,7 @@ public class JavassistClassFileTransformer implements ClassFileTransformer {
 			throws CannotCompileException {
 		if (!ctClass.isFrozen()) {
 			for (CtMethod declaredMethod : ctClass.getDeclaredMethods()) {
-				System.out.println("   instrumenting method "
-						+ declaredMethod.getName());
+				//System.out.println("   instrumenting method " + declaredMethod.getName());
 				int modifiers = declaredMethod.getModifiers();
 				if (!Modifier.isAbstract(modifiers)) {
 					declaredMethod
