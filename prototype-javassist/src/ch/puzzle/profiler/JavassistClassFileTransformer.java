@@ -51,38 +51,14 @@ public class JavassistClassFileTransformer implements ClassFileTransformer {
 				//System.out.println("   instrumenting method " + declaredMethod.getName());
 				int modifiers = declaredMethod.getModifiers();
 				if (!Modifier.isAbstract(modifiers)) {
-					declaredMethod
-							.insertBefore(createEnterInstrumentationString(
-									ctClass.getName(), declaredMethod.getName()));
-					declaredMethod.insertAfter(createExitInstrumentationString(
-							ctClass.getName(), declaredMethod.getName()));
+					declaredMethod.insertBefore("ch.puzzle.profiler.Profiler.notifyEnterMethod(\""
+					+ ctClass.getName() + "\", \"" + declaredMethod.getName() + "\");");
+					declaredMethod.insertAfter("ch.puzzle.profiler.Profiler.notifyExitMethod(\""
+							+ ctClass.getName() + "\", \"" + declaredMethod.getName() + "\");");
 				}
 			}
 		}
 		return ctClass;
-	}
-
-	private String createEnterInstrumentationString(String className,
-			String methodName) {
-		return createInstrumentationString(className, methodName, ">");
-	}
-
-	private String createExitInstrumentationString(String className,
-			String methodName) {
-		return createInstrumentationString(className, methodName, "<");
-	}
-
-	private String createInstrumentationString(String className,
-			String methodName, String flowPattern) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("System.out.println(\" ");
-		sb.append(flowPattern);
-		sb.append(" ");
-		sb.append(className);
-		sb.append(".");
-		sb.append(methodName);
-		sb.append("()\");");
-		return sb.toString();
 	}
 
 }
