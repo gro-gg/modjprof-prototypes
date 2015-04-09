@@ -16,7 +16,7 @@ public class ASMClassFileTransformer implements ClassFileTransformer {
             ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
         if (className.startsWith("ch/puzzle") || className.startsWith("najs")) {
-            System.out.println(" Loading class: " + className);
+            // System.out.println(" Loading class: " + className);
 
             ClassReader classReader = new ClassReader(classfileBuffer);
             ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES);
