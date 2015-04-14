@@ -15,17 +15,20 @@ public class ASMClassFileTransformer implements ClassFileTransformer {
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
             ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
-        if (className.startsWith("ch/puzzle") || className.startsWith("najs")) {
-            // System.out.println(" Loading class: " + className);
-
-            ClassReader classReader = new ClassReader(classfileBuffer);
-            ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES);
-            ClassVisitor instrumentMethodClassVisitor = new InstrumentMethodClassVisitor(classWriter, className);
-            if ((classReader.getAccess() & (Opcodes.ACC_INTERFACE + Opcodes.ACC_ENUM + Opcodes.ACC_ANNOTATION)) == 0) {
-                classReader.accept(instrumentMethodClassVisitor, 0);
-                return classWriter.toByteArray();
-            }
-        }
+			if (className.startsWith("ch/puzzle") || className.startsWith("najs")) {
+				// System.err.println(" Loading class: " + className);
+				try {
+				    ClassReader classReader = new ClassReader(classfileBuffer);
+				    ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_FRAMES);
+				    ClassVisitor instrumentMethodClassVisitor = new InstrumentMethodClassVisitor(classWriter, className);
+				    if ((classReader.getAccess() & (Opcodes.ACC_INTERFACE + Opcodes.ACC_ENUM + Opcodes.ACC_ANNOTATION)) == 0) {
+				        classReader.accept(instrumentMethodClassVisitor, 0);
+				        return classWriter.toByteArray();
+				    }
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
+			}
         return classfileBuffer;
     }
 
