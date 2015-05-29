@@ -3,9 +3,9 @@ run this sample application with a java agent:
 java -javaagent:agent.jar
 
 e.g.:
-java -javaagent:../prototypes/prototype-javassist/target/prototype-javassist-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+java -javaagent:../prototype-javassist/target/prototype-javassist-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
 
 or
 
-java -javaagent:../prototypes/prototype-asm/target/prototype-asm-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+java -javaagent:../prototype-asm/target/prototype-asm-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
 
