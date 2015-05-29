@@ -1,11 +1,27 @@
-run this sample application with a java agent:
+how to run this sample application with a java agent:
+======================================================
 
-java -javaagent:agent.jar
+1 . generate agent jar files:
 
-e.g.:
-java -javaagent:../prototype-javassist/target/prototype-javassist-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+	cd prototype-asm
+	mvn package
 
-or
+	cd prototype-javassist
+	mvn package
 
-java -javaagent:../prototype-asm/target/prototype-asm-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+2. generate sample application jar file:
+	cd sample-application
+	mvn package
+
+3. start sample application with agent: (java -javaagent:agent.jar)
+
+	java -javaagent:../prototype-javassist/target/prototype-javassist-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+
+	or
+
+	java -javaagent:../prototype-asm/target/prototype-asm-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+
+4. analyze profiler output:
+
+	cat /tmp/profiler.txt
 
