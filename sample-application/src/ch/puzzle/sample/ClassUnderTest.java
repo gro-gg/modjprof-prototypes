@@ -6,6 +6,7 @@ public class ClassUnderTest {
 		System.out.println("ClassUnderTest.main() called");
 		ClassA classa = new ClassA();
 		classa.run();
+        classa.run();
 	}
 
 }

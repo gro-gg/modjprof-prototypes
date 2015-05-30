@@ -21,6 +21,10 @@ how to run this sample application with a java agent:
 
 	java -javaagent:../prototype-asm/target/prototype-asm-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
 
+	or
+
+	java -javaagent:/home/pgrogg/git/masterthesis/modjprof/modjprof-agent/target/modjprodf-agent-0.0.1-SNAPSHOT-jar-with-dependencies.jar -jar target/sample-application-0.0.1-SNAPSHOT.jar
+
 4. analyze profiler output:
 
 	cat /tmp/profiler.txt
