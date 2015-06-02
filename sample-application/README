@@ -27,5 +27,5 @@ how to run this sample application with a java agent:
 
 4. analyze profiler output:
 
-	cat /tmp/profiler.txt
+	cat /tmp/profiler.trc
 

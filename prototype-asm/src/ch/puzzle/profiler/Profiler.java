@@ -11,7 +11,7 @@ public class Profiler {
     private static PrintWriter writer;
 
     public static void premain(String agentArgs, Instrumentation inst) throws IOException {
-        writer = new PrintWriter(new FileWriter(new File("/tmp/profiler.txt")), true);
+        writer = new PrintWriter(new FileWriter(new File("/tmp/profiler.trc")), true);
         System.out.println("Starting the ASM agent... premain()");
         inst.addTransformer(new ASMClassFileTransformer());
     }
